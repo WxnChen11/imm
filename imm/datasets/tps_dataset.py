@@ -98,10 +98,16 @@ class TPSDataset(ImagePairDataset):
 
   def _get_image(self, idx):
     image = osp.join(self._image_dir, self._images[idx])
-    landmarks = self._keypoints[idx][:, [1, 0]]
 
-    inputs = {'image': image, 'landmarks': landmarks}
-    inputs.update({k: v for k, v in self.LANDMARK_LABELS.items()})
+    inputs = {'image': image}
+
+    if self._keypoints:
+
+      landmarks = self._keypoints[idx][:, [1, 0]]
+
+      inputs.update({'image': image, 'landmarks': landmarks})
+      inputs.update({k: v for k, v in self.LANDMARK_LABELS.items()})
+
     return inputs
 
 
